@@ -1,7 +1,7 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/marker-lockup-dark.svg">
-    <img alt="Annotai" src="assets/brand/marker-lockup-light.svg" width="260">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/andrielfn/annotai/main/assets/brand/marker-lockup-dark.svg">
+    <img alt="Annotai" src="https://raw.githubusercontent.com/andrielfn/annotai/main/assets/brand/marker-lockup-light.svg" width="260">
   </picture>
 </div>
 
