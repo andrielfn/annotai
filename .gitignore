@@ -1,0 +1,13 @@
+/_build/
+/deps/
+erl_crash.dump
+*.ez
+*.beam
+node_modules/
+.DS_Store
+
+# ExUnit @tag :tmp_dir scratch output
+/tmp/
+# Local annotation snapshots (opt-in persistence)
+.annotai/
+tasks/

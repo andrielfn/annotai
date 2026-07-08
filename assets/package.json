@@ -1,0 +1,30 @@
+{
+  "name": "annotai-widget",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Annotai dev-only annotation widget (Lit). Built with bun to ../priv/static/app.js, which is committed so consumers run no build.",
+  "author": "Andriel Nuernberg (https://github.com/andrielfn)",
+  "license": "MIT",
+  "scripts": {
+    "build": "bun build src/index.js --minify --format=iife --define process.env.NODE_ENV='\"production\"' --outfile=../priv/static/app.js",
+    "watch": "bun build src/index.js --sourcemap=inline --format=iife --outfile=../priv/static/app.js --watch",
+    "lint": "lit-analyzer \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\"",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage"
+  },
+  "lint-staged": {
+    "src/**/*.js": "prettier --write"
+  },
+  "dependencies": {
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^20.10.6",
+    "lint-staged": "^17.0.8",
+    "lit-analyzer": "^2.0.3",
+    "prettier": "^3.8.4"
+  }
+}

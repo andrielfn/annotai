@@ -1,0 +1,3 @@
+[test]
+# Give widget code a DOM (document, NodeIterator, custom elements) via happy-dom.
+preload = ["./test/setup.js"]
