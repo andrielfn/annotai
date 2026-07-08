@@ -10,6 +10,10 @@ element on the running page, leave a note, and it goes straight to your AI codin
 agent with everything it needs to act on it: the CSS selector, the `phx-*`
 attributes, and the HEEx `file:line` that rendered the element.
 
+<div align="center">
+  <img alt="Annotai demo" src="https://raw.githubusercontent.com/andrielfn/annotai/main/assets/media/annotai-demo.gif" width="720">
+</div>
+
 ## What it does
 
 - **Element annotations.** Click any element on the page and leave a note.
