@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+# Only needs to create the GitHub Release. No Hex key lives here — `mix hex.publish`
+# is run manually from a maintainer's machine so the API key never touches CI.
+permissions:
+  contents: write
+
+jobs:
+  github-release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Pull the notes for THIS tag straight out of CHANGELOG.md so the release and
+      # the changelog can never drift apart. Fails if the section is missing/empty.
+      - name: Extract changelog section
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '
+            $0 ~ "^## \\[" v "\\]" {f=1; next}
+            /^## \[/ {f=0}
+            /^\[[^][]+\]: / {f=0}
+            f
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ] || ! grep -q '[^[:space:]]' release-notes.md; then
+            echo "::error::No CHANGELOG.md section found for $GITHUB_REF_NAME"
+            exit 1
+          fi
+          echo "----- release notes for $GITHUB_REF_NAME -----"
+          cat release-notes.md
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md
