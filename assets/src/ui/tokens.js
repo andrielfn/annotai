@@ -38,6 +38,43 @@ export const tokens = css`
     /* One hairline + one soft shadow: enough to lift a block off the panel without popping. */
     --raised-edge: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.28);
     --well-edge: inset 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    /* Widget placement: distance from each viewport edge for the toolbar (and the
+       panels, offset above/below it). Defaults to bottom-right, 20px in. The host app
+       overrides these inline via config :annotai, position: — see widget.js
+       _applyPlacement, which also stamps data-annotai-corner for the panel rules below. */
+    --annotai-inset-top: auto;
+    --annotai-inset-right: 20px;
+    --annotai-inset-bottom: 20px;
+    --annotai-inset-left: auto;
+  }
+  /* Panels (history, settings) share the .anchored class: they sit 54px past the toolbar
+     (its height + gap) along the vertical inset and stay flush to it horizontally, growing
+     from the near corner. The corner attr flips the anchored axis so a top/left placement
+     opens the panel downward/leftward instead. */
+  .anchored {
+    position: fixed;
+    top: auto;
+    right: var(--annotai-inset-right);
+    bottom: calc(var(--annotai-inset-bottom) + 54px);
+    left: auto;
+    transform-origin: bottom right;
+  }
+  :host([data-annotai-corner="bottom-left"]) .anchored {
+    right: auto;
+    left: var(--annotai-inset-left);
+    transform-origin: bottom left;
+  }
+  :host([data-annotai-corner="top-right"]) .anchored {
+    top: calc(var(--annotai-inset-top) + 54px);
+    bottom: auto;
+    transform-origin: top right;
+  }
+  :host([data-annotai-corner="top-left"]) .anchored {
+    top: calc(var(--annotai-inset-top) + 54px);
+    bottom: auto;
+    right: auto;
+    left: var(--annotai-inset-left);
+    transform-origin: top left;
   }
   /* selected accent + legible foreground (dark fg for light accents) */
   :host([data-annotai-accent="indigo"]) {

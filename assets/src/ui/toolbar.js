@@ -73,8 +73,10 @@ export const toolbarTemplate = ({
 export const styles = css`
   .bar {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    top: var(--annotai-inset-top);
+    right: var(--annotai-inset-right);
+    bottom: var(--annotai-inset-bottom);
+    left: var(--annotai-inset-left);
     z-index: 100000;
     display: flex;
     align-items: center;

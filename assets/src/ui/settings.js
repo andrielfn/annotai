@@ -58,7 +58,7 @@ export const settingsTemplate = ({
   onUntip,
   onCopy,
 }) =>
-  html`<div class="settings">
+  html`<div class="settings anchored">
     <div class="set-head">
       <span class="set-brand">${icons.wordmark}</span>
       <span class="set-head-right">
@@ -126,10 +126,9 @@ export const settingsTemplate = ({
   </div>`;
 
 export const styles = css`
+  /* Placement (position, insets, transform-origin) comes from the shared .anchored
+     rules in tokens.js so the panel tracks the widget's configured corner. */
   .settings {
-    position: fixed;
-    bottom: 74px;
-    right: 20px;
     z-index: 100001;
     width: 258px;
     background: var(--surface);
@@ -140,7 +139,6 @@ export const styles = css`
       var(--surface-edge);
     padding: 12px 14px 14px;
     font-weight: 500;
-    transform-origin: bottom right;
     animation: pop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .set-head {

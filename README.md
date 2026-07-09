@@ -121,6 +121,33 @@ curl -fsSL https://raw.githubusercontent.com/andrielfn/annotai/main/skills/fix-a
 Other agents (Codex, Cursor, and so on) can read the same file through their own
 rules setup.
 
+## Placement
+
+The widget sits in the bottom-right corner. If another dev tool is already parked
+there (LiveDebugger's button lives in the same spot, for one), move Annotai out of
+the way with `:position`:
+
+```elixir
+# config/dev.exs
+config :annotai, position: [bottom: 20, right: 220]
+```
+
+The keys are CSS insets, just like `position: fixed`: `:top`, `:bottom`, `:left`,
+and `:right` are each a distance from that edge. Integers are pixels, strings pass
+through as they are (`"2rem"`). Set at most one of `:top`/`:bottom` and one of
+`:left`/`:right`, and leave an axis out to keep its 20px default.
+
+The corner the widget anchors to falls out of the edges you name, and its panels
+open from that corner too:
+
+```elixir
+config :annotai, position: [bottom: 20, left: 20]    # bottom-left corner
+config :annotai, position: [top: 20, right: 20]      # top-right corner
+config :annotai, position: [bottom: 20, right: 220]  # bottom-right, slid left of another widget
+```
+
+A bad value is ignored, with a log warning, and the default placement is used.
+
 ## Persistence
 
 Annotations live in memory and clear out when your app restarts. That's fine for a

@@ -95,8 +95,13 @@ export class AnnotaiWidget extends LitElement {
     super();
     this.theme = localStorage.getItem(THEME_KEY) || "dark";
     this.accent = localStorage.getItem(ACCENT_KEY) || "blue";
-    // The injected <script> carries the package version as a data attribute.
-    this.version = document.querySelector("script[data-annotai-version]")?.dataset.annotaiVersion || null;
+    // The injected <script> carries the package version and any configured
+    // placement (corner + edge insets) as data attributes.
+    const script = document.querySelector("script[data-annotai-version]");
+    this.version = script?.dataset.annotaiVersion || null;
+    this._corner = script?.dataset.annotaiCorner || null; // e.g. "bottom-right"; null = default placement
+    this._insetH = script?.dataset.annotaiInsetH || null; // horizontal edge inset, e.g. "220px"
+    this._insetV = script?.dataset.annotaiInsetV || null; // vertical edge inset, e.g. "20px"
     this.open = false;
     this.settingsOpen = false;
     this.historyOpen = false;
@@ -163,6 +168,7 @@ export class AnnotaiWidget extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this._applyPlacement();
     ensureSelectingStyle();
     document.addEventListener("click", this._onClick, true);
     document.addEventListener("mousemove", this._onMove, true);
@@ -201,6 +207,21 @@ export class AnnotaiWidget extends LitElement {
     }, POLL_MS);
     this._refresh();
   }
+  // Server-configured corner placement (config :annotai, position:). With no config
+  // the widget keeps the default bottom-right insets from tokens.js. Otherwise we pin
+  // the two active edges (the other two go `auto`) and stamp data-annotai-corner, which
+  // the toolbar reads for its insets and the panels read to flip their open direction.
+  _applyPlacement() {
+    if (!this._corner) return;
+    const [vSide, hSide] = this._corner.split("-"); // "bottom-right" -> ["bottom", "right"]
+    for (const edge of ["top", "right", "bottom", "left"]) {
+      this.style.setProperty(`--annotai-inset-${edge}`, "auto");
+    }
+    this.style.setProperty(`--annotai-inset-${hSide}`, this._insetH);
+    this.style.setProperty(`--annotai-inset-${vSide}`, this._insetV);
+    this.setAttribute("data-annotai-corner", this._corner);
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("click", this._onClick, true);

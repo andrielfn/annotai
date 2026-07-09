@@ -68,7 +68,7 @@ export const historyTemplate = ({ annotations, filter, onJump, onToggleFilter, o
   const ordered = [...annotations].reverse(); // store gives oldest-first; show newest-first
   const visible = active.length ? ordered.filter((a) => active.includes(a.status)) : ordered;
   const chips = countChips(annotations, active);
-  return html`<div class="history">
+  return html`<div class="history anchored">
     <div class="hist-head">
       <span class="hist-title">Annotations</span>
       <span class="hist-counts">
@@ -97,10 +97,9 @@ export const historyTemplate = ({ annotations, filter, onJump, onToggleFilter, o
 };
 
 export const styles = css`
+  /* Placement (position, insets, transform-origin) comes from the shared .anchored
+     rules in tokens.js so the panel tracks the widget's configured corner. */
   .history {
-    position: fixed;
-    bottom: 74px;
-    right: 20px;
     z-index: 100001;
     width: 300px;
     background: var(--surface);
@@ -111,7 +110,6 @@ export const styles = css`
       var(--surface-edge);
     padding: 12px 9px 9px;
     font-weight: 300;
-    transform-origin: bottom right;
     animation: pop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .hist-head {
