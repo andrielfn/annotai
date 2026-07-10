@@ -61,7 +61,7 @@ config :phoenix_live_view, debug_heex_annotations: true, debug_attributes: true
 On [Igniter](https://hexdocs.pm/igniter)? The installer does both steps for you:
 
 ```bash
-mix annotai.install
+mix igniter.install annotai
 ```
 
 ## Connect your agent
